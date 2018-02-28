@@ -9,7 +9,7 @@
     tools:context="com.zastupailo.moxytry.MainActivity">
 
     <TextView
-        android:id="@+id/hello_view"
+        android:id="@+id/tv_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

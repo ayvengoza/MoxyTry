@@ -12,20 +12,34 @@ import java.util.concurrent.TimeUnit
 class HelloWorldPresenter : MvpPresenter<HelloWorldView> {
 
     constructor(){
-        val asyncTask = object : AsyncTask<Void, Void, Void>(){
+        val asyncTask = object : AsyncTask<Void, Int, Void>(){
+
+            override fun onPreExecute() {
+                viewState.showTimer()
+            }
+
             override fun doInBackground(vararg params: Void?): Void? {
+                for (i in 5 downTo 0){
+                    publishProgress(i)
+                    sleepSecond()
+                }
                 sleepSecond()
                 return null
             }
 
+            override fun onProgressUpdate(vararg values: Int?) {
+                values[0]?.let { viewState.setTimer(it) }
+            }
+
             override fun onPostExecute(result: Void?) {
                 super.onPostExecute(result)
+                viewState.hideTimer()
                 viewState.showMessage(R.string.hello_world)
             }
 
             fun sleepSecond(){
                 try {
-                    TimeUnit.SECONDS.sleep(3)
+                    TimeUnit.SECONDS.sleep(1)
                 } catch (ignore : InterruptedException){
 
                 }

@@ -1,8 +1,8 @@
 package com.zastupailo.moxytry
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.arellomobile.mvp.MvpAppCompatActivity
@@ -12,6 +12,26 @@ class MainActivity : MvpAppCompatActivity(), HelloWorldView {
 
     @InjectPresenter
     lateinit var mHelloWorldPresenter : HelloWorldPresenter
+
+    var mTimerTextView : TextView? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        mTimerTextView = findViewById(R.id.tv_timer)
+    }
+
+    override fun showTimer() {
+        mTimerTextView?.setVisibility(View.VISIBLE)
+    }
+
+    override fun hideTimer() {
+        mTimerTextView?.setVisibility(View.GONE)
+    }
+
+    override fun setTimer(seconds: Int) {
+        mTimerTextView?.setText(seconds.toString())
+    }
 
     override fun showMessage(message: Int) {
         val messageTextView = TextView(this)
@@ -23,8 +43,4 @@ class MainActivity : MvpAppCompatActivity(), HelloWorldView {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
 }
