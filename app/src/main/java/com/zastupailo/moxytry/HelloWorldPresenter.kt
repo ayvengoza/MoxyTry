@@ -48,4 +48,8 @@ class HelloWorldPresenter : MvpPresenter<HelloWorldView> {
 
         asyncTask.execute()
     }
+
+    fun onDismissMessage(){
+        viewState.hideMessage()
+    }
 }

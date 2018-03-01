@@ -1,9 +1,9 @@
 package com.zastupailo.moxytry
 
+import android.content.DialogInterface
 import android.os.Bundle
-import android.view.Gravity
+import android.support.v7.app.AlertDialog
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -14,6 +14,7 @@ class MainActivity : MvpAppCompatActivity(), HelloWorldView {
     lateinit var mHelloWorldPresenter : HelloWorldPresenter
 
     var mTimerTextView : TextView? = null
+    var mMessageDialog : AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +35,16 @@ class MainActivity : MvpAppCompatActivity(), HelloWorldView {
     }
 
     override fun showMessage(message: Int) {
-        val messageTextView = TextView(this)
-        messageTextView.setText(message)
-        messageTextView.setTextSize(40f)
-        messageTextView.setGravity(Gravity.CENTER_HORIZONTAL)
-        val layout: ViewGroup = findViewById(R.id.activity_main)
-        layout.addView(messageTextView)
+        mMessageDialog = AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .setOnDismissListener(DialogInterface.OnDismissListener { mHelloWorldPresenter.onDismissMessage() })
+                .show()
+    }
 
+    override fun hideMessage() {
+        mMessageDialog?.dismiss()
     }
 
 }

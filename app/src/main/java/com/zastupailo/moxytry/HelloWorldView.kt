@@ -14,4 +14,6 @@ interface HelloWorldView : MvpView {
     fun setTimer(seconds : Int)
 
     fun showMessage(message: Int)
+
+    fun hideMessage()
 }
