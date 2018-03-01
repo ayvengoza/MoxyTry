@@ -1,9 +1,9 @@
 package com.zastupailo.moxytry
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -14,7 +14,7 @@ class MainActivity : MvpAppCompatActivity(), HelloWorldView {
     lateinit var mHelloWorldPresenter : HelloWorldPresenter
 
     var mTimerTextView : TextView? = null
-    var mMessageDialog : AlertDialog? = null
+    var mMessageView : View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,16 +35,17 @@ class MainActivity : MvpAppCompatActivity(), HelloWorldView {
     }
 
     override fun showMessage(message: Int) {
-        mMessageDialog = AlertDialog.Builder(this)
-                .setTitle(R.string.app_name)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-                .setOnDismissListener(DialogInterface.OnDismissListener { mHelloWorldPresenter.onDismissMessage() })
-                .show()
+        val rootView : ViewGroup = findViewById<ViewGroup>(R.id.activity_main)
+        mMessageView = LayoutInflater.from(this).inflate(R.layout.item_message, rootView, false)
+        rootView.addView(mMessageView)
+
+        mMessageView?.findViewById<TextView>(R.id.message_text_view)?.setText(message)
+        mMessageView?.findViewById<TextView>(R.id.close_button)?.setOnClickListener{mHelloWorldPresenter.onDismissMessage()}
     }
 
     override fun hideMessage() {
-        mMessageDialog?.dismiss()
+        val rootView = findViewById<ViewGroup>(R.id.activity_main)
+        rootView.removeView(mMessageView)
     }
 
 }
